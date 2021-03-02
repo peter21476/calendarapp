@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import CalendarItem from './CalendarItem'
+import Search from './Search'
+import Categories from './Categories'
 import Pagination from './Pagination'
 
 const Calendar = () => {
 
     useEffect(() => {
-        axios.get(`https://api.bizzabo.com/api/events`, {
+        axios.get(`/events`, {
             headers: {
                 'Accept': 'application/vnd.bizzabo.v2.0+json',
                 'Authorization': 'Bearer b2f9b657-d8fd-4c34-a28b-eba13cab25c2',
@@ -30,6 +32,8 @@ const Calendar = () => {
     const [postsPerPage] = useState(6)
 
     const [showSearchOnMobile, setShowSearchOnMobile] = useState(false)
+
+    const [bizzCheckBox, setBizzCheckbox] = useState(false)
 
     // Get current posts
     const indexOfLastPost = currentPage * postsPerPage
@@ -114,7 +118,6 @@ const Calendar = () => {
                                     eventURL={item.websiteUrl}
                                     eventType={item.type ? item.type : 'Not Categorized'}
                                     eventId={item.id}
-                                    eventURL={item.websiteUrl}
                                 />
                             ))}
                         </div>
@@ -122,19 +125,14 @@ const Calendar = () => {
                     <div className="col-md-2 my-auto search-col">
                         <div className="mobile-menu" onClick={handleFunctionsShowing}><i className="fas fa-bars"></i></div>
                         <div className={`functions-wrapper ${showSearchOnMobile == false ? "hidden" : ""}`}>
-                            <div className="search-wrapper">
-                                <label>Live Search</label>
-                                <input id="search-text" name="search-text" type="text" placeholder="Search" value={searchTerm} onChange={handleChange} />
-                            </div>
-                            <div className="categories-wrapper">
-                                <label>Categories</label>
-                                <select name="categories" id="sorting-type" onChange={sortingEvent}>
-                                    <option value="All">All</option>
-                                    {uniqueCategories.map(cat => (
-                                        <option value={cat}>{cat}</option>
-                                    ))}
-                                </select>
-                            </div>
+                            <Search
+                                searchTerm={searchTerm}
+                                handleChangeProp={handleChange}
+                            />
+                            <Categories
+                                sortingEventProps={sortingEvent}
+                                uniqueCategories={uniqueCategories}
+                            />
                         </div>
                     </div>
                 </div>

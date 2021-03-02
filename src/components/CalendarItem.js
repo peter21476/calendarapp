@@ -4,6 +4,7 @@ import Logo from '../images/bizzabo-logo.jpg'
 
 const CalendarItem = (props) => {
 
+
     let eventPhoto = '';
 
     if (props.eventPhoto === undefined) {
@@ -31,7 +32,7 @@ const CalendarItem = (props) => {
                     <h6>{format(new Date(props.eventStartDate), 'MMMM d, yyyy')} - {format(new Date(props.eventEndDate), 'MMMM d, yyyy')}</h6>
                 </div>
                 <div className="event-registration">
-                    <a className="btn btn-register" href={props.eventURL} target="_blank">REGISTER</a>
+                    <a rel="noreferrer" className="btn btn-register" href={props.eventURL} target="_blank">REGISTER</a>
                 </div>
             </div>
         </div>
