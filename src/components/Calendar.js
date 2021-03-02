@@ -1,29 +1,23 @@
 import React, { useEffect, useState } from 'react'
+import axios from 'axios'
 import CalendarItem from './CalendarItem'
 import Pagination from './Pagination'
 
 const Calendar = () => {
 
     useEffect(() => {
-        callToApi()
-    }, [])
-
-    const callToApi = async () => {
-        const response = await fetch(bizzaboUrl, {
-            method: 'GET',
+        axios.get(`/events`, {
             headers: {
-                "Accept": "application/vnd.bizzabo.v2.0+json",
-                "Authorization": "Bearer b2f9b657-d8fd-4c34-a28b-eba13cab25c2",
-            },
+                'Accept': 'application/vnd.bizzabo.v2.0+json',
+                'Authorization': 'Bearer b2f9b657-d8fd-4c34-a28b-eba13cab25c2'
+            }
+        }).then(res => {
+            const data = res.data
+            data.content.sort((a, b) => a.startDate > b.startDate ? 1 : -1)
+            setfilteredEvents(data.content)
+            setBizzaboEvents(data.content)
         });
-        const data = await response.json()
-        data.content.sort((a, b) => a.startDate > b.startDate ? 1 : -1)
-        setfilteredEvents(data.content)
-        setBizzaboEvents(data.content)
-    }
-
-
-    const bizzaboUrl = 'https://api.bizzabo.com/api/events'
+    }, [])
 
     const [bizzaboEvents, setBizzaboEvents] = useState([])
 
