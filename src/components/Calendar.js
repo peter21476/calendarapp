@@ -9,7 +9,8 @@ const Calendar = () => {
         axios.get(`https://api.bizzabo.com/api/events`, {
             headers: {
                 'Accept': 'application/vnd.bizzabo.v2.0+json',
-                'Authorization': 'Bearer b2f9b657-d8fd-4c34-a28b-eba13cab25c2'
+                'Authorization': 'Bearer b2f9b657-d8fd-4c34-a28b-eba13cab25c2',
+                'Access-Control-Allow-Origin': "*"
             }
         }).then(res => {
             const data = res.data
